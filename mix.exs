@@ -51,7 +51,7 @@ defmodule Xandra.Mixfile do
 
   defp deps() do
     [
-      {:db_connection, github: "blitzstudios/db_connection", ref: "55bc7ec675f627d4af7d1f994bb72a5c85030e02"},
+      {:db_connection, github: "blitzstudios/db_connection", tag: "v2.0.6-metrics"},
       {:decimal, "~> 1.7", optional: true},
       {:snappy, github: "skunkwerks/snappy-erlang-nif", only: [:dev, :test]},
       {:ex_doc, "~> 0.20", only: :dev},
