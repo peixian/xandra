@@ -27,6 +27,10 @@ defmodule Xandra.Cluster.Pool do
 
     sync_connect_alias_or_nil = if sync_connect_timeout, do: Process.alias([:reply]), else: nil
 
+    :ets.new(:pool_configs, [:named_table, :public, {:read_concurrency, true}])
+    pool_size = Keyword.fetch!(connection_opts, :pool_size)
+    :ets.insert(:pool_info, {:pool_size, pool_size})
+
     case GenStatemHelpers.start_link_with_name_registration(
            __MODULE__,
            {cluster_opts, connection_opts, sync_connect_alias_or_nil},
