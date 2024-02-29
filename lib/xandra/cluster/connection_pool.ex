@@ -12,13 +12,15 @@ defmodule Xandra.Cluster.ConnectionPool do
 
   @spec checkout(pid()) :: pid()
   def checkout(sup_pid) when is_pid(sup_pid) do
-    [{:pool_size, pool_size}] = :ets.lookup(:pool_info, :pool_size)
+    [{:pool_size, pool_size}] = :ets.lookup(:pool_config, :pool_size)
 
     children = Supervisor.which_children(sup_pid)
 
     # Generate a random index and attempt to fetch a valid PID
     random_index = Enum.random(1..pool_size) - 1
     selected_child = Enum.at(children, random_index)
+
+    IO.inspect("got pid #{inspect(selected_child)}")
 
     case selected_child do
       {_, pid, :worker, _} when is_pid(pid) ->
